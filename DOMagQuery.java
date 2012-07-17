@@ -55,7 +55,7 @@ public class DOMagQuery
 		String query = "SELECT " + column + " from " + table + 
 				" WHERE " + field + "='" + value + "'";
 
-		System.out.println(query); // debug
+//		System.out.println(query); // debug
 
 		try {
 			// establish connection to database

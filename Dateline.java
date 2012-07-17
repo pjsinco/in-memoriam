@@ -54,7 +54,7 @@ public class Dateline
 	 *	@param		city		The city to check
 	 *	@return					Whether the city can stand on its own
 	 */
-	public boolean checkStandAlone()
+	public boolean canStandAlone()
 	{
 		for (String standAloneCity : standAlone) {
 			if (standAloneCity.equals(city)) {
