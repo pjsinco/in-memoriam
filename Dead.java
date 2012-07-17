@@ -30,9 +30,9 @@ public class Dead
 	private String gradDate;
 	private String id;
 	private String lastUpdated;
-	private String age;
 
 	// variables we're building from db variables
+	private String age;
 	private String schoolAbbrev;
 	private String gradYear;
 	private String state;

@@ -6,6 +6,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Arrays;
 
 public class DOMagQuery
 {
@@ -47,7 +48,7 @@ public class DOMagQuery
 	 *	
 	 *	@return					The query results
 	 */
-	private String connect(String column, String table, String field, 
+	public String connect(String column, String table, String field, 
 		String value)
 	{
 		String s = "";
@@ -91,6 +92,67 @@ public class DOMagQuery
 		return s;
 	}
 
+	/**
+	 *	Overloads connect. User can specify custom query.
+	 *
+	 *	@param		query			The MySQL statement to execute
+	 *	@return						The result of the query
+	 */
+	public String[][] connect(String query)
+	{
+		String s = "";
+		String[][] deceased = new String[50][16];
+		
+		System.out.println(query); // debug
+
+		try {
+			// establish connection to database
+			connection = DriverManager.getConnection(
+				DATABASE_URL, USER, PASSWORD);
+
+			// create statement for querying database
+			statement = connection.createStatement();
+
+			// query database
+			resultSet = statement.executeQuery(query);
+
+			// process query results
+			// are we doing anything with this meta data?
+			ResultSetMetaData metaData = resultSet.getMetaData();
+
+
+			int colCount = metaData.getColumnCount();
+			
+			while (resultSet.next()) {
+				for (int i = 1; i <= colCount; i++) {
+					deceased[(resultSet.getRow()) - 1][i - 1] = resultSet.getString(i);
+//					System.out.printf("%s\n", resultSet.getObject(i)); // debug
+				}
+			}
+			
+			for (int i = 0; i < 50; i++) {
+				if (deceased[i][14] != null) {
+//					System.out.println(Arrays.toString(deceased[i])); // debug
+				}
+			}
+
+		} catch (SQLException sqle) {
+			System.out.println("Error interacting with the database");
+			sqle.printStackTrace();
+		} finally {
+			try {
+				resultSet.close();
+				statement.close();
+				connection.close();
+			} catch (SQLException sqle) {
+				System.out.println("Error closing the database connection");
+				sqle.printStackTrace();
+			}
+		}
+
+		return deceased;
+
+	}
 	/**
 	 *	Returns the abbreviation of the queried school.
 	 *
@@ -156,6 +218,6 @@ public class DOMagQuery
 				
 		return date;
 	}
-	
 
+	
 }
