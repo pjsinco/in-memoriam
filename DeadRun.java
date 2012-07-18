@@ -6,7 +6,8 @@
  *	follows format in The DO's "In Memoriam" section.
  *
  *	@author		Patrick Sinco
- *	@version	0.9
+ *	@version	1.0
+ *	@version	Last modified 2012-07-18
  */
 
 import java.util.Arrays;
@@ -17,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.io.PrintWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 
 public class DeadRun
 {
@@ -25,60 +27,64 @@ public class DeadRun
 
 	public static void main(String[] args)
 	{
-		if (args.length == 0) {
-			System.out.println("\nNo dates were included.");
-			System.out.println("Usage: java DeadRun <start-date> <end-date> (yyyy-mm-dd)\n");
-			return;
-		}
-
 		String startDate = null;
 		String stopDate = null;
 		Scanner input = new Scanner(System.in);
 		File f = new File("in-mem.html");
 		PrintWriter output = null;
-
-
+		
 		try {
 			startDate = args[0];
 			stopDate = args[1];
-
-			System.out.println("Start: " + startDate); // debug
-			System.out.println("Stop: " + stopDate); // debug
-			DOMagQuery query = new DOMagQuery();
-			String dead[][] = query.connect("select * from inmemoriam where " +
-					"lastupdated between '" + startDate +  "' and '" 
-					+ stopDate + "' order by lastname asc");
-
-			printTopMatter();
-
-			// print all the formatted obits
-			for (int i = 0; i < NUM_ARRAYS; i++) {
-				// as long as the id is set; id cannot be null in MySQL table
-				if (dead[i][14] != null) {
-					System.out.println(inMemorialize(dead[i]));
-					System.out.println(lookup(dead[i]));
-				}
-			}
-		} catch (ArrayIndexOutOfBoundsException aioobe) {
+		} catch (ArrayIndexOutOfBoundsException aioob) {
+			System.out.println("\nNo dates were included.");
+			System.out.println("Usage: java DeadRun <start-date> <end-date> (yyyy-mm-dd)\n");
 			System.exit(1);
+		}
+
+		try {
+			output = new PrintWriter(f);
+		} catch (FileNotFoundException fnf) {
+			System.out.println("\nError: Could not find the file to write to\n");
+			System.exit(1);
+		}
+
+		DOMagQuery query = new DOMagQuery();
+		String dead[][] = query.connect("select * from inmemoriam where " +
+				"lastupdated between '" + startDate +  "' and '" 
+				+ stopDate + "' order by lastname asc");
+
+		printTopMatter(output);
+
+		// print all the formatted obits
+		for (int i = 0; i < NUM_ARRAYS; i++) {
+			// ... as long as the id is set; id cannot be null in MySQL table
+			if (dead[i][14] != null) {
+				output.println(inMemorialize(dead[i]));
+				output.println(lookup(dead[i]));
+			}
+		}
+
+		// close PrintWriter
+		output.close();
+
+		if (f.exists()) {
+			System.out.println("\nSuccess! File has been output to \"in-mem.html\".\n");
+		} else {
+			System.out.println("\nError: No file has been written.\n");
 		}
 	}
 
 	/**
 	 *	Prints boilerplate text at top of "In Memoriam" section.
 	 */
-	public static void printTopMatter()
+	public static void printTopMatter(PrintWriter output)
 	{
 		// print reminder
-		System.out.println("* * * * * R E M I N D E R * * * * *");
-		System.out.println("*                                 *");
-		System.out.println("*   get_template_part: inmem-db   *");
-		System.out.println("*                                 *");
-		System.out.println("* * * * * * * * * * * * * * * * * *");
-		System.out.println();
+		output.println("<p><em>REMINDER: get_template_part: inmem-db</em></p>\n");
 
 		// print top matter
-		System.out.println("<p><em>The following list of deceased " + 
+		output.println("<p><em>The following list of deceased " + 
 				"osteopathic physicians includes links to obituaries and " + 
 				"online memorials if they&rsquo;return available. Readers " + 
 				"can notify </em>The DO<em> of their deceased colleagues " + 
@@ -125,7 +131,10 @@ public class DeadRun
 				getAge(dob, deceasedDate) + " (" + schoolAbbrev + 
 				" " + gradDate + "), of " + getHometown(city, postalState) + 
 				" <a href=\"\" title=\"\" target=\"_blank\">died</a> " + 
-				getDeceasedDate(deceasedDate) + ".";
+				getDeceasedDate(deceasedDate) + ". Visit " + 
+				(designation.contains("DO") ? "Dr. " : "" ) + 
+				lastName + "&rsquo;s <a href=\"\" title=\"\" " +
+				"target=\"_blank\">online guest book</a>.";
 	}
 
 	/**
@@ -156,7 +165,7 @@ public class DeadRun
 				" target=\"_blank\"><small>Google</small></a>",
 				dead[0], dead[2]);
 
-		return  "<p>" + bing + "\n\t\t" + thedo + "\n\t\t" + google + "</p>";
+		return  "<p>\n\t" + bing + "\n\t" + thedo + "\n\t" + google + "\n</p>\n";
 	}
 
 	/**
