@@ -35,10 +35,29 @@ public class DeadRun
 				"lastupdated between '" + startDate +  "' and '" 
 				+ stopDate + "' order by lastname asc");
 
+		// print reminder
+		System.out.println("* * * * * R E M I N D E R * * * * *");
+		System.out.println("*                                 *");
+		System.out.println("*   get_template_part: inmem-db   *");
+		System.out.println("*                                 *");
+		System.out.println("* * * * * * * * * * * * * * * * * *");
+		System.out.println();
+
+		// print top matter
+		System.out.println("<p><em>The following list of deceased " + 
+				"osteopathic physicians includes links to obituaries and " + 
+				"online memorials if they&rsquo;return available. Readers " + 
+				"can notify </em>The DO<em> of their deceased colleagues " + 
+				"by sending an email to " + 
+				"<a href=\"mailto:thedo@osteopathic.org?subject=In Memoriam\">" +
+				"thedo@osteopathic.org.</a></em></p>");
+
+		// print all the formatted obits
 		for (int i = 0; i < NUM_ARRAYS; i++) {
-			// as long as the ID is set
+			// as long as the id is set; id cannot be null in MySQL table
 			if (dead[i][14] != null) {
 				System.out.println(inMemorialize(dead[i]));
+				System.out.println(lookup(dead[i]));
 			}
 		}
 	}
@@ -62,27 +81,57 @@ public class DeadRun
 		String city = dead[4];
 		String postalState = dead[5];
 		String deceasedDate = dead[6];
-//		String status = dead[7];
+//		String status = dead[7]; // not needed
 		String dob = dead[8];
-//		String gender = dead[9];
-//		String classLevel = dead[10];
+//		String gender = dead[9]; // not needed
+//		String classLevel = dead[10]; // not needed
 		String collegeCode = dead[11];
-//		String collegeName = dead[12];
+//		String collegeName = dead[12]; // not needed
 		String gradDate = getGradYear(dead[13]);
 		String id = dead[14];
 		String lastUpdated = dead[15];
 		
 		// building these from methods
-		String currYear = null;
-		String age = null;
 		String schoolAbbrev = query.getSchoolAbbrev(collegeCode);
 		String dateOfDeath = getDeceasedDate(deceasedDate);
-		String state = null;
 
-		return firstName + " " + middleName + " " + lastName + 
-				", " + designation + ", " + getAge(dob, deceasedDate) + " (" + schoolAbbrev + 
+		return "<p><strong class=\"mem\">" + firstName + " " + middleName + " " + 
+				lastName + ", " + designation + ", </strong>" + 
+				getAge(dob, deceasedDate) + " (" + schoolAbbrev + 
 				" " + gradDate + "), of " + getHometown(city, postalState) + 
-				" died " + getDeceasedDate(deceasedDate) + ".";
+				" <a href=\"\" title=\"\" target=\"_blank\">died</a> " + 
+				getDeceasedDate(deceasedDate) + ".";
+	}
+
+	/**
+	 *	Creates links to obit searches on Bing and Google for the deceased. Also
+	 *	creates a link to The DO to see if the obit has already run.
+	 *
+	 *	@param			dead		An array containing every value returned from
+	 *									the database for a deceased person
+	 *	@return						Three links: two to search for obits on Bing
+	 *									and Google, and one to search The DO
+	 */
+	public static String lookup(String[] dead)
+	{
+		String bing = 
+				String.format("<a href=\"" +
+				"https://www.bing.com/search?q=%s+%s+osteopathic+obituary\"" +
+				" target=\"_blank\"><small>Bing</small></a>",
+				dead[0], dead[2]);
+		String thedo = 
+				String.format("<a href=\"" +
+				"https://www.do-online.org/TheDO/?s=%s+%s\"" +
+				" target=\"_blank\"><small><em>The DO</em></small></a>",
+				dead[0], dead[2]);
+
+		String google =
+				String.format("<a href=\"" +
+				"https://www.google.com/search?q=%s+%s+osteopathic+obituary\"" +
+				" target=\"_blank\"><small>Google</small></a>",
+				dead[0], dead[2]);
+
+		return  "<p>" + bing + "\n\t\t" + thedo + "\n\t\t" + google + "</p>";
 	}
 
 	/**
