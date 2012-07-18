@@ -15,6 +15,8 @@ import java.util.Date;
 import java.util.Scanner;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
+import java.io.PrintWriter;
+import java.io.File;
 
 public class DeadRun
 {
@@ -23,18 +25,50 @@ public class DeadRun
 
 	public static void main(String[] args)
 	{
+		if (args.length == 0) {
+			System.out.println("\nNo dates were included.");
+			System.out.println("Usage: java DeadRun <start-date> <end-date> (yyyy-mm-dd)\n");
+			return;
+		}
+
+		String startDate = null;
+		String stopDate = null;
 		Scanner input = new Scanner(System.in);
+		File f = new File("in-mem.html");
+		PrintWriter output = null;
 
-		System.out.print("Enter the start date (yyyy-mm-dd): ");
-		String startDate = input.next();
-		System.out.print("Enter the stop date (yyyy-mm-dd): ");
-		String stopDate = input.next();
 
-		DOMagQuery query = new DOMagQuery();
-		String dead[][] = query.connect("select * from inmemoriam where " +
-				"lastupdated between '" + startDate +  "' and '" 
-				+ stopDate + "' order by lastname asc");
+		try {
+			startDate = args[0];
+			stopDate = args[1];
 
+			System.out.println("Start: " + startDate); // debug
+			System.out.println("Stop: " + stopDate); // debug
+			DOMagQuery query = new DOMagQuery();
+			String dead[][] = query.connect("select * from inmemoriam where " +
+					"lastupdated between '" + startDate +  "' and '" 
+					+ stopDate + "' order by lastname asc");
+
+			printTopMatter();
+
+			// print all the formatted obits
+			for (int i = 0; i < NUM_ARRAYS; i++) {
+				// as long as the id is set; id cannot be null in MySQL table
+				if (dead[i][14] != null) {
+					System.out.println(inMemorialize(dead[i]));
+					System.out.println(lookup(dead[i]));
+				}
+			}
+		} catch (ArrayIndexOutOfBoundsException aioobe) {
+			System.exit(1);
+		}
+	}
+
+	/**
+	 *	Prints boilerplate text at top of "In Memoriam" section.
+	 */
+	public static void printTopMatter()
+	{
 		// print reminder
 		System.out.println("* * * * * R E M I N D E R * * * * *");
 		System.out.println("*                                 *");
@@ -51,15 +85,6 @@ public class DeadRun
 				"by sending an email to " + 
 				"<a href=\"mailto:thedo@osteopathic.org?subject=In Memoriam\">" +
 				"thedo@osteopathic.org.</a></em></p>");
-
-		// print all the formatted obits
-		for (int i = 0; i < NUM_ARRAYS; i++) {
-			// as long as the id is set; id cannot be null in MySQL table
-			if (dead[i][14] != null) {
-				System.out.println(inMemorialize(dead[i]));
-				System.out.println(lookup(dead[i]));
-			}
-		}
 	}
 
 	/**
