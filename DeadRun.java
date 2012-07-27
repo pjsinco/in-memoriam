@@ -19,6 +19,7 @@ import java.text.ParseException;
 import java.io.PrintWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import utilities.database.DOMagQuery;
 
 public class DeadRun
 {
@@ -50,13 +51,15 @@ public class DeadRun
 		}
 
 		DOMagQuery query = new DOMagQuery();
-		String dead[][] = query.connect("select * from inmemoriam where " +
+		String dead[][] = query.getArrays("select * from inmemoriam where " +
 				"lastupdated between '" + startDate +  "' and '" 
 				+ stopDate + "' order by lastname asc");
 
 		printTopMatter(output);
 
 		// print all the formatted obits
+		// ** not sure we need *all* these steps now that getArray() in DOMagQuery
+		// 	  uses an ArrayList and returns an array with no nulls
 		for (int i = 0; i < NUM_ARRAYS; i++) {
 			// ... as long as the id is set; id cannot be null in MySQL table
 			if (dead[i][14] != null) {

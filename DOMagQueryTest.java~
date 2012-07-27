@@ -1,8 +1,0 @@
-public class DOMagQueryTest
-{
-	DOMagQuery domq = new DOMagQuery();
-	String s = domq.connect("fullname",
-		"fullschoolnames", "code", "118447");
-
-
-}
