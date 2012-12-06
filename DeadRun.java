@@ -1,7 +1,8 @@
 // DeadRun.java
 // TODO
 // Weed out obits that are too old, i.e. deceased date > 8 months ago
-// <html> and <body> tags are opened but not closed
+// <html> and <body> tags are opened but not closed -- Fix
+// Weed out obits that have already been published -- search db?
 
 /**
  *	This class prints a correctly formatted obituary for each 
