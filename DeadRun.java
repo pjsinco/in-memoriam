@@ -1,4 +1,6 @@
 // DeadRun.java
+// TODO
+// Weed out obits that are too old, i.e. deceased date > 8 months ago
 
 /**
  *	This class prints a correctly formatted obituary for each 
@@ -50,6 +52,7 @@ public class DeadRun
 			System.exit(1);
 		}
 
+		// get rows from inmemoriam table between specified dates
 		DOMagQuery query = new DOMagQuery();
 		String dead[][] = query.getArrays("select * from inmemoriam where " +
 				"lastupdated between '" + startDate +  "' and '" 
@@ -58,8 +61,8 @@ public class DeadRun
 		printTopMatter(output);
 
 		// print all the formatted obits
-		// ** not sure we need *all* these steps now that getArray() in DOMagQuery
-		// 	  uses an ArrayList and returns an array with no nulls
+		// CLUMSY -- not sure we need *all* these steps now that getArray() in DOMagQuery
+		// uses an ArrayList and returns an array with no nulls
 		for (int i = 0; i < NUM_ARRAYS; i++) {
 			// ... as long as the id is set; id cannot be null in MySQL table
 			if (dead[i][14] != null) {
@@ -87,13 +90,17 @@ public class DeadRun
 		output.println("<p><em>REMINDER: get_template_part: inmem-db</em></p>\n");
 
 		// print top matter
-		output.println("<p><em>The following list of deceased " + 
+		output.println("<p><em>The following list of recently deceased " + 
 				"osteopathic physicians includes links to obituaries and " + 
-				"online memorials if they&rsquo;return available. Readers " + 
+				"online memorials if they&rsquo;re available. Readers " + 
 				"can notify </em>The DO<em> of their deceased colleagues " + 
 				"by sending an email to " + 
 				"<a href=\"mailto:thedo@osteopathic.org?subject=In Memoriam\">" +
 				"thedo@osteopathic.org.</a></em></p>");
+
+		// print excerpt
+		output.println("EXCERPT:");
+		output.println("View the names of recently deceased osteopathic physicians.");
 	}
 
 	/**
@@ -294,5 +301,4 @@ public class DeadRun
 
 		return year;
 	}
-
 }
