@@ -1,6 +1,7 @@
 // DeadRun.java
 // TODO
 // Weed out obits that are too old, i.e. deceased date > 8 months ago
+// <html> and <body> tags are opened but not closed
 
 /**
  *	This class prints a correctly formatted obituary for each 
@@ -87,6 +88,7 @@ public class DeadRun
 	public static void printTopMatter(PrintWriter output)
 	{
 		// print reminder
+		output.println("<html><body style=\"font-family: monospace;\">");
 		output.println("<p><em>REMINDER: get_template_part: inmem-db</em></p>\n");
 
 		// print top matter
@@ -102,6 +104,7 @@ public class DeadRun
 		output.println("EXCERPT:");
 		output.println("View the names of recently deceased osteopathic physicians.");
 	}
+
 
 	/**
 	 *	Formats an obituary for "In Memoriam."
