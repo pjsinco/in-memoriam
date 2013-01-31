@@ -33,17 +33,17 @@ public class DeadRun
 	public static void main(String[] args)
 	{
 		String startDate = null;
-		String stopDate = null;
+//		String stopDate = null;
 		Scanner input = new Scanner(System.in);
 		File f = new File("in-mem.html");
 		PrintWriter output = null;
 		
 		try {
 			startDate = args[0];
-			stopDate = args[1];
+//			stopDate = args[1];
 		} catch (ArrayIndexOutOfBoundsException aioob) {
 			System.out.println("\nNo dates were included.");
-			System.out.println("Usage: java DeadRun <start-date> <end-date> (yyyy-mm-dd)\n");
+			System.out.println("Usage: java DeadRun <start-date> (yyyy-mm-dd)\n");
 			System.exit(1);
 		}
 
@@ -57,8 +57,7 @@ public class DeadRun
 		// get rows from inmemoriam table between specified dates
 		DOMagQuery query = new DOMagQuery();
 		String dead[][] = query.getArrays("select * from inmemoriam where " +
-				"lastupdated between '" + startDate +  "' and '" 
-				+ stopDate + "' order by lastname asc");
+				"lastupdated >= '" + startDate +  "' order by lastname asc");
 
 		printTopMatter(output);
 
