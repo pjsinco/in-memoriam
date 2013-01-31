@@ -161,6 +161,11 @@ public class DeadRun
 	 */
 	public static String lookup(String[] dead)
 	{
+		String google =
+				String.format("<a href=\"" +
+				"https://www.google.com/search?q=%s+%s+osteopathic+obituary\"" +
+				" target=\"_blank\"><small>Google</small></a>",
+				dead[0], dead[2]);
 		String bing = 
 				String.format("<a href=\"" +
 				"https://www.bing.com/search?q=%s+%s+osteopathic+obituary\"" +
@@ -172,13 +177,8 @@ public class DeadRun
 				" target=\"_blank\"><small><em>The DO</em></small></a>",
 				dead[0], dead[2]);
 
-		String google =
-				String.format("<a href=\"" +
-				"https://www.google.com/search?q=%s+%s+osteopathic+obituary\"" +
-				" target=\"_blank\"><small>Google</small></a>",
-				dead[0], dead[2]);
 
-		return  "<p>\n\t" + bing + "\n\t" + thedo + "\n\t" + google + "\n</p>\n";
+		return  "<p>\n\t" + google + "\n\t" + bing + "\n\t" + thedo + "\n</p>\n";
 	}
 
 	/**
