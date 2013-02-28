@@ -147,12 +147,11 @@ public class DeadRun
 				getDeceasedDate(deceasedDate) + ". Visit " + 
 				(designation.contains("DO") ? "Dr. " : "" ) + 
 				lastName + "&rsquo;s <a href=\"\" title=\"\" " +
-				"target=\"_blank\">online guest book</a>.";
+				"target=\"_blank\">online guest book</a>.</p>";
 	}
-
-	/**
+/**
 	 *	Creates links to obit searches on Bing and Google for the deceased. Also
-	 *	creates a link to The DO to see if the obit has already run.
+	 *	creates a link to The DO so I can check if the obit has already run.
 	 *
 	 *	@param			dead		An array containing every value returned from
 	 *									the database for a deceased person
