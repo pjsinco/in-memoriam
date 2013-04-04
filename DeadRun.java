@@ -143,11 +143,11 @@ public class DeadRun
 				lastName + ", " + designation + ", </strong>" + 
 				getAge(dob, deceasedDate) + " (" + schoolAbbrev + 
 				" " + gradDate + "), of " + getHometown(city, postalState) + 
-				" <a href=\"\" title=\"\" target=\"_blank\">died</a> " + 
+				" \n<a href=\"\" title=\"\" target=\"_blank\">\ndied</a> " + 
 				getDeceasedDate(deceasedDate) + ". Visit " + 
 				(designation.contains("DO") ? "Dr. " : "" ) + 
-				lastName + "&rsquo;s <a href=\"\" title=\"\" " +
-				"target=\"_blank\">online guest book</a>.</p>";
+				lastName + "&rsquo;s \n<a href=\"\" title=\"\" " +
+				"target=\"_blank\">\nonline guest book</a>.</p>";
 	}
 /**
 	 *	Creates links to obit searches on Bing and Google for the deceased. Also
