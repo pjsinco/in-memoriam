@@ -6,6 +6,7 @@
 // that javascript script, just provide a placeholder
 // for URLs, for both the obit and guestbook
 // --take out the space before 'died' and 'online guest book'
+// --make sure obits are alphabetized
 
 /**
  *	This class prints a correctly formatted obituary for each 
