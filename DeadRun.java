@@ -1,8 +1,11 @@
 // DeadRun.java
 // TODO
-// Weed out obits that are too old, i.e. deceased date > 8 months ago
-// <html> and <body> tags are opened but not closed -- Fix
-// Weed out obits that have already been published -- search db?
+// --<html> and <body> tags are opened but not closed -- Fix
+// --Weed out obits that have already been published -- search db?
+// --because the <a href...> is formed automatically by using
+// that javascript script, just provide a placeholder
+// for URLs, for both the obit and guestbook
+// --take out the space before 'died' and 'online guest book'
 
 /**
  *	This class prints a correctly formatted obituary for each 
@@ -56,8 +59,16 @@ public class DeadRun
 
 		// get rows from inmemoriam table between specified dates
 		DOMagQuery query = new DOMagQuery();
-		String dead[][] = query.getArrays("select * from inmemoriam where " +
-				"lastupdated >= '" + startDate +  "' order by lastname asc");
+        // get at least everything within past 6 months, if not 
+        // this calendar year
+        String mySqlQuery = 
+          "SELECT * " +
+          "FROM inmemoriam " +
+          "WHERE lastupdated >= '" + startDate + "'" +
+          "  and (year(deceaseddate) = year(curdate()))" +
+          "  or (year(deceaseddate > subdate(curdate(), interval 6 month)))";
+
+		String dead[][] = query.getArrays(mySqlQuery);
 
 		printTopMatter(output);
 
