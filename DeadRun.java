@@ -66,8 +66,7 @@ public class DeadRun
           "SELECT * " +
           "FROM inmemoriam " +
           "WHERE lastupdated >= '" + startDate + "'" +
-          "  and (year(deceaseddate) = year(curdate()))" +
-          "  or (year(deceaseddate > subdate(curdate(), interval 6 month)))";
+          "  and deceaseddate > subdate(curdate(), interval 6 month)";
 
 		String dead[][] = query.getArrays(mySqlQuery);
 
