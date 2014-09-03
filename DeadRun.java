@@ -183,7 +183,7 @@ public class DeadRun
 				dead[0], dead[2]);
 		String thedo = 
 				String.format("<a href=\"" +
-				"https://www.do-online.org/TheDO/?s=%s+%s\"" +
+				"http://thedo.osteopathic.org/?s=%s+%s\"" +
 				" target=\"_blank\"><small><em>The DO</em></small></a>",
 				dead[0], dead[2]);
 
