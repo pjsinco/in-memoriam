@@ -38,7 +38,7 @@ public class DeadRun
 	{
 		String startDate = null;
 //		String stopDate = null;
-		Scanner input = new Scanner(System.in);
+		//Scanner input = new Scanner(System.in);
 		File f = new File("in-mem.html");
 		PrintWriter output = null;
 		
