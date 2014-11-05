@@ -1,1 +1,14 @@
 .DS_Store
+.*swp
+.*swo
+.*swm
+
+old/*
+inmem-archive-app/*
+*.class
+table-structures.txt
+states.txt
+manifest.txt
+
+
+
