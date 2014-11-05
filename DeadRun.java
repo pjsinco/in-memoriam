@@ -297,7 +297,10 @@ public class DeadRun
 	{
 		Dateline dateline = new Dateline(city);
 		StateRef stateRef = new StateRef(state);
-		String place = String.format("%s, %s,", city, stateRef);
+
+    // 2014-11-05 now we use stateRef.getFull() 
+    // to comply w/ new AP style rule
+		String place = String.format("%s, %s,", city, stateRef.getFull());
 
 		if (dateline.canStandAlone()) {
 			return city;
