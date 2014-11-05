@@ -15,7 +15,7 @@
  *
  *	@author		Patrick Sinco
  *	@version	1.0
- *	@version	Last modified 2012-07-18
+ *	@version	Last modified Wed Nov  5 10:09:29 CST 2014
  */
 
 import java.util.Arrays;
