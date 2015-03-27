@@ -161,13 +161,13 @@ public class DeadRun
 				"target=\"_blank\">\nonline guest book</a>.</p>";
 	}
 /**
-	 *	Creates links to obit searches on Bing and Google for the deceased. Also
-	 *	creates a link to The DO so I can check if the obit has already run.
+	 *	Creates links to obit searches for the deceased. Also
+	 *	creates a link to The DO so we can check if the obit has already run.
 	 *
 	 *	@param			dead		An array containing every value returned from
 	 *									the database for a deceased person
-	 *	@return						Three links: two to search for obits on Bing
-	 *									and Google, and one to search The DO
+	 *	@return						Four links: to search for obits on Bing, Google,
+	 *									The DO, and The DO Archives
 	 */
 	public static String lookup(String[] dead)
 	{
@@ -176,19 +176,27 @@ public class DeadRun
 				"https://www.google.com/search?q=%s+%s+osteopathic+obituary\"" +
 				" target=\"_blank\"><small>Google</small></a>",
 				dead[0], dead[2]);
+
 		String bing = 
 				String.format("<a href=\"" +
 				"https://www.bing.com/search?q=%s+%s+osteopathic+obituary\"" +
 				" target=\"_blank\"><small>Bing</small></a>",
 				dead[0], dead[2]);
+
 		String thedo = 
 				String.format("<a href=\"" +
 				"http://thedo.osteopathic.org/?s=%s+%s\"" +
 				" target=\"_blank\"><small><em>The DO</em></small></a>",
 				dead[0], dead[2]);
 
+    String thedoarc =
+        String.format("<a href=\"" +
+				"http://thedoarc.osteopathic.org/?s=%s+%s\"" +
+				" target=\"_blank\"><small><em>The DO Archive</em></small></a>",
+				dead[0], dead[2]);
 
-		return  "<p>\n\t" + google + "\n\t" + bing + "\n\t" + thedo + "\n</p>\n";
+		return  "<p>\n\t" + google + "\n\t" + bing + "\n\t" + thedo + "\n\t"  + 
+      thedoarc + "\n</p>\n";
 	}
 
 	/**
