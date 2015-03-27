@@ -100,7 +100,7 @@ public class DeadRun
 	{
 		// print reminder
 		output.println("<html><body style=\"font-family: monospace;\">");
-		output.println("<p><em>REMINDER: get_template_part: inmem-db</em></p>\n");
+		//output.println("<p><em>REMINDER: get_template_part: inmem-db</em></p>\n");
 
 		// print top matter
 		output.println("<p><em>The following list of recently deceased " + 
