@@ -189,14 +189,14 @@ public class DeadRun
 				" target=\"_blank\"><small><em>The DO</em></small></a>",
 				dead[0], dead[2]);
 
-    String thedoarc =
-        String.format("<a href=\"" +
+        String thedoarc =
+            String.format("<a href=\"" +
 				"http://thedoarc.osteopathic.org/?s=%s+%s\"" +
 				" target=\"_blank\"><small><em>The DO Archive</em></small></a>",
 				dead[0], dead[2]);
 
 		return  "<p>\n\t" + google + "\n\t" + bing + "\n\t" + thedo + "\n\t"  + 
-      thedoarc + "\n</p>\n";
+      "\n</p>\n";
 	}
 
 	/**
